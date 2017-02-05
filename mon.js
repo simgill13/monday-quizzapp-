@@ -41,7 +41,7 @@ var state = {
 function getQuestions(state, index) {
 	
 	$( ".main" ).html( state.questions[index].questionText );
-    $( ".counter" ).html( 'Progress '+ ' ' + state.questions[index].question + ' out of 5');
+    $( ".counter" ).html( 'Progress '+ ' ' + state.questions[index].question + ' of 5');
     $( ".score" ).html( ' Score ' + state.score );
     $(".first").html(state.questions[index].questionAnswers[0]);
     $(".second").html(state.questions[index].questionAnswers[1]);
