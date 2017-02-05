@@ -56,21 +56,25 @@ function checkAnswer(state, index) {
         alert("Right");
         state.score++;
         state.counter++;
+        $('input:radio[name=same]').prop('checked',false);
         getQuestions(state, state.counter);
+       
         
     } else if ($('input:radio[name=same]:checked').val() != state.questions[index].questionAnswerIndex && state.counter < 4) {
         alert("Wrong");
-         state.counter++;
+        state.counter++;
+        $('input:radio[name=same]').prop('checked',false);
         getQuestions(state, state.counter);
 
     } else if ($('input:radio[name=same]:checked').val() == state.questions[index].questionAnswerIndex && state.counter == 4) {
     	state.score++;
         alert("The Game is Done, Your final Score is " + state.score + " of 5");
-        $( ".score" ).html( ' Score:  ' + state.score+ " out of 5" );
+        $( ".score" ).html( ' Score:  ' + state.score+ " of 5" );
         $('#form').addClass('hidden');
         $('.main').addClass('hidden');
         $('.counter').addClass('hidden');
         $('#Play').removeClass('hidden');
+        $('input:radio[name=same]').prop('checked',false);
     	     
     } else if ($('input:radio[name=same]:checked').val() != state.questions[index].questionAnswerIndex && state.counter == 4) {
         alert("The Game is Done, Your final Score is" + state.score + " of 5");
@@ -78,13 +82,17 @@ function checkAnswer(state, index) {
         $('.main').addClass('hidden');
         $('.counter').addClass('hidden');
         $('#Play').removeClass('hidden');
+        $('input:radio[name=same]').prop('checked',false);
     	
-    }}
+    }
+
+}
 
 
 $('#submit').click(function(e) {
     event.preventDefault();
     checkAnswer(state, state.counter);});
+
 
 $('.startgame').click(function(e) {
     event.preventDefault();
@@ -103,6 +111,16 @@ $('#Play').click(function(e) {
     $('.main').removeClass('hidden');
     $('#startButton').addClass('hidden');
     $('#Play').addClass('hidden');});
+
+
+
+
+// SECOND ASSIGNMENT --- TIC TAC TOE GAME 
+
+
+
+
+
 
 
 
