@@ -61,7 +61,7 @@ function getQuestions(state, index) {
 
 function checkAnswer(state, userAnswer, index) {
 
-    if (userAnswer == state.questions[index].questionAnswerIndex && state.counter <= state.questions.length) {
+    if (userAnswer == state.questions[index].questionAnswerIndex) {
         state.counter++;
         state.score++;
         state.correctArray.push(state.questions[index].question);
