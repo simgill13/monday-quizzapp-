@@ -72,7 +72,6 @@ function checkAnswer(state, userAnswer, index) {
 }
 
  
-
 $('#submit').click(function(e) {
     event.preventDefault();
     var userAnswer = $('input:radio[name=same]:checked').val();
@@ -82,7 +81,9 @@ $('#submit').click(function(e) {
     getQuestions(state, index);
     index = state.counter;
     arrayLength = state.questions.length;
-    if (state.counter < arrayLength) {
+    if (!userAnswer) {
+        alert("Please select a value, before selecting submit");
+    } else if (state.counter < arrayLength) {
         getQuestions(state, index);
         $('input:radio[name=same]').prop('checked', false);
     } else {
@@ -94,7 +95,8 @@ $('#submit').click(function(e) {
             event.preventDefault();
             state.counter = 0;
             state.score = 0;
-            getQuestions(state, 0);
+            getQuestions(state, state.counter);
+            $('input:radio[name=same]').prop('checked', false);
             $('#form').removeClass('hidden');
             $('.counter').removeClass('hidden');
             $('.main').removeClass('hidden');
@@ -108,7 +110,10 @@ $('#submit').click(function(e) {
 
 
 
-
+// this to add tommorow 
+// 1 the array of correct 
+// 2 the array of incorrect
+// 3 empty both arrays before loop
 
 
 
