@@ -4,118 +4,119 @@ var state = {
 				questionText: "Who averaged one patent for every three weeks of his life?",
 				questionAnswers:["Thomas Engler", "Thomas Edison", "Thomas BraveHart", "Thomas Bommer"],
 				questionAnswerIndex: 1,
-				CorrentAnswer: "Thomas Edison"
+
 				},{
 				question: 2,
 				questionText: "Name the world's largest ocean?",
 				questionAnswers:["Indian Ocean", "Atlantic Ocean", "Pacific Ocean", "Artic Ocean"],
 				questionAnswerIndex: 2,
-				CorrentAnswer: "Pacific Ocean"	
 				},{
 				question: 3,
 				questionText: "What's the largest and densest of the four rocky planets?",
 				questionAnswers:["Earth", "Venus", "Mars", "Pluto"],
 				questionAnswerIndex: 0,
-				CorrentAnswer: "Earth"
 				},{
 				question: 4,
 				questionText: "Who is Superman's mortal enemy?",
 				questionAnswers:["Larry from marketing ", "Lex Luther", "Jimmy Olson", "Perry White"],
 				questionAnswerIndex: 1,
-				CorrentAnswer: "Lex Luther"
 				},{
 				question: 5,
 				questionText: "What is Homer Simpsons middle name?",
 				questionAnswers:["Johnson", "Jay", "James", "Hayer"],
 				questionAnswerIndex: 1,
-				CorrentAnswer: "Jay"	
 				}],
-
-	rightResponce: "Thats right, Smarty Pants",
-	wrongResonce: "That's wrong",
+	correctAnswerResponce: "You are correct",
+	incorrectAnserResponce:"Your answer is not correct",
 	counter: 0,
-	score: 0};
+	score: 0,
+	correctArray: [],
+	incorrectArray:[]
+	
+};
+
+
+
+
+
+$('.startgame').click(function(e) {
+    event.preventDefault();
+    getQuestions(state, state.counter);
+    $('#form').removeClass('hidden');
+    $('#startButton').addClass('hidden');});
 
 
 
 function getQuestions(state, index) {
 	
-	$( ".main" ).html( state.questions[index].questionText );
-    $( ".counter" ).html( 'Progress '+ ' ' + state.questions[index].question + ' of 5');
-    $( ".score" ).html( ' Score ' + state.score );
+	$(".main" ).html( state.questions[index].questionText );
+    $(".counter" ).html( 'Progress '+ ' ' + state.questions[index].question + ' of 5');
+    $(".score" ).html(` <h6> Score </h6> <br>  <h1>${state.score}</h1>` );
     $(".first").html(state.questions[index].questionAnswers[0]);
     $(".second").html(state.questions[index].questionAnswers[1]);
     $(".third").html(state.questions[index].questionAnswers[2]);
     $(".fourth").html(state.questions[index].questionAnswers[3]);}
 
 
-function checkAnswer(state, index) {
-    if (!$('input:radio[name=same]:checked').val()) {
-        alert("Please enter a selection before selecting Submit")
-    } else if ($('input:radio[name=same]:checked').val() == state.questions[index].questionAnswerIndex && state.counter < 4) {
-        alert("Right");
+
+function checkAnswer(state, userAnswer, index) {
+
+    if (userAnswer == state.questions[index].questionAnswerIndex && state.counter <= state.questions.length) {
+        state.counter++;
         state.score++;
+        state.correctArray.push(state.questions[index].question);
+    } else {
         state.counter++;
-        $('input:radio[name=same]').prop('checked',false);
-        getQuestions(state, state.counter);
-       
-        
-    } else if ($('input:radio[name=same]:checked').val() != state.questions[index].questionAnswerIndex && state.counter < 4) {
-        alert("Wrong");
-        state.counter++;
-        $('input:radio[name=same]').prop('checked',false);
-        getQuestions(state, state.counter);
-
-    } else if ($('input:radio[name=same]:checked').val() == state.questions[index].questionAnswerIndex && state.counter == 4) {
-    	state.score++;
-        alert("The Game is Done, Your final Score is " + state.score + " of 5");
-        $( ".score" ).html( ' Score:  ' + state.score+ " of 5" );
-        $('#form').addClass('hidden');
-        $('.main').addClass('hidden');
-        $('.counter').addClass('hidden');
-        $('#Play').removeClass('hidden');
-        $('input:radio[name=same]').prop('checked',false);
-    	     
-    } else if ($('input:radio[name=same]:checked').val() != state.questions[index].questionAnswerIndex && state.counter == 4) {
-        alert("The Game is Done, Your final Score is" + state.score + " of 5");
-         $('#form').addClass('hidden');
-        $('.main').addClass('hidden');
-        $('.counter').addClass('hidden');
-        $('#Play').removeClass('hidden');
-        $('input:radio[name=same]').prop('checked',false);
-    	
+        state.incorrectArray.push(state.questions[index].question);
     }
-
 }
 
+ 
 
 $('#submit').click(function(e) {
     event.preventDefault();
-    checkAnswer(state, state.counter);});
+    var userAnswer = $('input:radio[name=same]:checked').val();
+    var index = state.counter;
+    var arrayLength = state.questions.length;
+    checkAnswer(state, userAnswer, index);
+    getQuestions(state, index);
+    index = state.counter;
+    arrayLength = state.questions.length;
+    if (state.counter < arrayLength) {
+        getQuestions(state, index);
+        $('input:radio[name=same]').prop('checked', false);
+    } else {
+        $('#form').addClass('hidden');
+        $('.main').addClass('hidden');
+        $('.counter').addClass('hidden');
+        $('#play').removeClass('hidden');
+        $('#play').click(function(e) {
+            event.preventDefault();
+            state.counter = 0;
+            state.score = 0;
+            getQuestions(state, 0);
+            $('#form').removeClass('hidden');
+            $('.counter').removeClass('hidden');
+            $('.main').removeClass('hidden');
+            $('#startButton').addClass('hidden');
+            $('#play').addClass('hidden');
+        });
+    }
+
+});
 
 
-$('.startgame').click(function(e) {
-    event.preventDefault();
-    getQuestions(state, 0);
-    $('#form').removeClass('hidden');
-    $('#startButton').addClass('hidden');});
-
-
-$('#Play').click(function(e) {
-    event.preventDefault();
-    state.counter = 0;
-    state.score = 0;
-    getQuestions(state, 0);
-    $('#form').removeClass('hidden');
-    $('.counter').removeClass('hidden');
-    $('.main').removeClass('hidden');
-    $('#startButton').addClass('hidden');
-    $('#Play').addClass('hidden');});
 
 
 
 
-// SECOND ASSIGNMENT --- TIC TAC TOE GAME 
+
+
+
+
+
+
+
 
 
 
