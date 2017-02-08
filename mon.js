@@ -26,15 +26,28 @@ var state = {
 				questionAnswers:["Johnson", "Jay", "James", "Hayer"],
 				questionAnswerIndex: 1,
 				}],
-	correctAnswerResponce: "You are correct",
-	incorrectAnserResponce:"Your answer is not correct",
+	correctToastr: function(){return toastr.success("Nice, Correct Answer");},
+	incorrectToastr: function(){return toastr.error("Nope, Wrong Answer");},
 	counter: 0,
 	score: 0,
-	correctArray: [],
-	incorrectArray:[]
-	
+	userAnswers: [],
+	correctAnswersHtml: function(){
+		var html;
+		return html = this.userAnswers.map(function(answer, index){
+			if (answer === state.questions[index].questionAnswerIndex){
+				return `<li>Question ${index + 1} was correct!</li>`;
+			} else {
+				return `<li>Question ${index + 1} was incorrect!</li>`;
+			}
+
+		});
+
+	}
+	 
 };
 
+
+	
 
 
 
@@ -51,46 +64,57 @@ function getQuestions(state, index) {
 	
 	$(".main" ).html( state.questions[index].questionText );
     $(".counter" ).html( 'Progress '+ ' ' + state.questions[index].question + ' of 5');
-    $(".score" ).html(` <h6> Score </h6> <br>  <h1>${state.score}</h1>` );
+    $(".score" ).html(` <h6> <br> Score </h6> <br>  <h1>${state.score}</h1>` );
     $(".first").html(state.questions[index].questionAnswers[0]);
     $(".second").html(state.questions[index].questionAnswers[1]);
     $(".third").html(state.questions[index].questionAnswers[2]);
     $(".fourth").html(state.questions[index].questionAnswers[3]);}
 
-
-
 function checkAnswer(state, userAnswer, index) {
-
-    if (userAnswer == state.questions[index].questionAnswerIndex) {
+    if (!userAnswer) {
+        toastr.error('Select an answer before clicking submit');
+    }
+    else if (userAnswer == state.questions[index].questionAnswerIndex) {
         state.counter++;
         state.score++;
-        state.correctArray.push(state.questions[index].question);
+        state.userAnswers.push(parseInt(userAnswer));
+        state.correctToastr();
+        
+       
     } else {
         state.counter++;
-        state.incorrectArray.push(state.questions[index].question);
+        state.userAnswers.push(parseInt(userAnswer));
+        state.incorrectToastr();
+        
     }
+     
 }
 
- 
 $('#submit').click(function(e) {
     event.preventDefault();
     var userAnswer = $('input:radio[name=same]:checked').val();
     var index = state.counter;
     var arrayLength = state.questions.length;
+    var list = state.correctAnswersHtml();
     checkAnswer(state, userAnswer, index);
     getQuestions(state, index);
     index = state.counter;
     arrayLength = state.questions.length;
+    list = state.correctAnswersHtml();
     if (!userAnswer) {
         alert("Please select a value, before selecting submit");
     } else if (state.counter < arrayLength) {
         getQuestions(state, index);
+        $('.correct').html(state.correctAnswersHtml());
         $('input:radio[name=same]').prop('checked', false);
     } else {
+    	$('.correct').html('');
         $('#form').addClass('hidden');
         $('.main').addClass('hidden');
         $('.counter').addClass('hidden');
         $('#play').removeClass('hidden');
+        state.userAnswers =[];
+        $('.correct').html('');
         $('#play').click(function(e) {
             event.preventDefault();
             state.counter = 0;
@@ -109,13 +133,11 @@ $('#submit').click(function(e) {
 
 
 
+// function resetQuiz() {
 
-// this to add tommorow 
-// 1 the array of correct 
-// 2 the array of incorrect
-// 3 empty both arrays before loop
-
-
+// 	console.log('hi');
+//    // location.reload();
+// }
 
 
 
@@ -123,6 +145,17 @@ $('#submit').click(function(e) {
 
 
 
+
+
+
+// getQuestions(state, state.counter);
+//     	console.log('imhere');
+//         resetQuiz();
+//     } else if (state.counter <= state.questions.length) {
+//     	checkAnswer(state, $('input:radio[name=same]:checked').val(), state.counter);
+//         getQuestions(state, state.counter);
+//         $('.correct').html(state.correctAnswersHtml());
+//         $('input:radio[name=same]').prop('checked', false);
 
 
 

@@ -5,6 +5,7 @@
     <title>Quizz app</title>
     <link rel="stylesheet" type="text/css" href="mon.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100" rel="stylesheet">
+   <link href="toastr.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -19,7 +20,9 @@
         <div class="outerCounter">
             <div class="counter"></div>
             <br>
-            <div class="correct"></div>
+            <div class="correct">
+            	<ul class="correctList"></ul>
+            </div>
             <br>
             <div class="incorrect"></div>
         </div>
@@ -48,7 +51,9 @@
         <button id="play" class="hidden"> Play Again </button>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="toastr.js"></script>
     <script type="text/javascript" src="mon.js"></script>
+   
 </body>
 
 </html>
