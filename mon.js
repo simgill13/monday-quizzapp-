@@ -133,30 +133,6 @@ $('#submit').click(function(e) {
 
 
 
-// function resetQuiz() {
-
-// 	console.log('hi');
-//    // location.reload();
-// }
-
-
-
-
-
-
-
-
-
-
-// getQuestions(state, state.counter);
-//     	console.log('imhere');
-//         resetQuiz();
-//     } else if (state.counter <= state.questions.length) {
-//     	checkAnswer(state, $('input:radio[name=same]:checked').val(), state.counter);
-//         getQuestions(state, state.counter);
-//         $('.correct').html(state.correctAnswersHtml());
-//         $('input:radio[name=same]').prop('checked', false);
-
 
 
 
